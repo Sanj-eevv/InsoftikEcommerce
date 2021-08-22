@@ -22,6 +22,9 @@ class CreateAdminsTable extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->string('phone');
+            $table->string('alt_phone')->nullable();
+            $table->string('gender')->nullable();
             $table->timestamps();
         });
     }

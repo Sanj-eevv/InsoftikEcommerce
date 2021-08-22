@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\CategoryController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,13 +34,25 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function ()
 
 Route::middleware(['auth:sanctum,admin', 'verified'])->group(function () {
     Route::get('/admin/dashboard', function () {
-        return view('admin.index');
+        return view('backend.admin_panel.index');
     })->name('dashboard');
 
     Route::get('admin/profile', [ProfileController::class, 'viewProfile'])->name('admin.profile');
     Route::get('admin/profile/edit', [ProfileController::class, 'editProfile'])->name('admin.profileEdit');
-    Route::get('admin/logout', [AdminController::class, 'destroy'])->name('admin.logout');
     Route::Post('admin/profile/update', [ProfileController::class, 'updateProfile'])->name('admin.profileUpdate');
-    Route::get('admin/profile/change-password', [ProfileController::class, 'changePassword'])->name('admin.passwordUpdate');
-    Route::post('admin/profile/update-password', [ProfileController::class, 'adminUpdatePassword'])->name('admin.adminUpdatePassword');
+    Route::get('admin/logout', [AdminController::class, 'destroy'])->name('admin.logout');
+    Route::get('admin/profile/change-password', [ProfileController::class, 'changePassword'])->name('admin.passwordChange');
+    Route::post('admin/profile/update-password', [ProfileController::class, 'adminUpdatePassword'])->name('admin.passwordUpdate');
+
+
+    Route::get('admin/product', [ProductController::class, 'listProduct'])->name('admin.product');
+
+
+    Route::get('admin/category', [CategoryController::class, 'listCategory'])->name('admin.category');
+    Route::post('admin/add-category', [CategoryController::class, 'addCategory'])->name('admin.addCategory');
+    Route::get('admin/delete-category/{id}', [CategoryController::class, 'deleteCategory'])->name('admin.deleteCategory');
+
+    Route::get('admin/sub-category', [CategoryController::class, 'listSubCategory'])->name('admin.subCategory');
+    Route::post('admin/add-sub-category', [CategoryController::class, 'addSubCategory'])->name('admin.addSubCategory');
+    
 });

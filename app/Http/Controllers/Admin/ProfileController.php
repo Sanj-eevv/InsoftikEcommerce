@@ -10,28 +10,38 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    
     public function viewProfile()
     {
         $admin = Admin::find(1);
-        return view('admin.admin_profile', compact('admin'));
+        return view('backend.admin.admin_profile', compact('admin'));
     }
 
     public function editProfile()
     {
         $admin = Admin::find(1);
-        return view('admin.admin_edit_profile', compact('admin'));
+        return view('backend.admin.admin_edit_profile', compact('admin'));
     }
 
     public function updateProfile(Request $request,)
     {
         $rules = [
             'email' => 'required',
-            'name' => 'required'
+            'name' => 'required',
+            'phone' => 'required',
         ];
         $this->validate($request, $rules);
         $admin = Admin::find(1);
         $admin->email = $request->email;
         $admin->name = $request->name;
+        if ($request->gender == Admin::$DO_NOT_SPECIFY) {
+            $admin->gender = null;
+        } else {
+            $admin->gender = $request->gender;
+        }
+
+        $admin->phone = $request->phone;
+        $admin->alt_phone = $request->alt_phone;
 
         $old_photo = $request->old_photo;
 
@@ -50,7 +60,7 @@ class ProfileController extends Controller
     public function changePassword()
     {
         $admin = Admin::find(1);
-        return view('admin.admin_change_password', compact('admin'));
+        return view('backend.admin.admin_change_password', compact('admin'));
     }
 
     public function adminUpdatePassword(Request $request)

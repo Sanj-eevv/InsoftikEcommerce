@@ -18,6 +18,9 @@ class Admin extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    public static $DO_NOT_SPECIFY = "Do not Specify";
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,6 +30,9 @@ class Admin extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'alt_phone',
+        'gender',
     ];
 
     /**
